@@ -1,0 +1,317 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{enumitem}
+
+%% Sets page size and margins
+%% Sets page size and margins
+\usepackage[a4paper,top=2cm,bottom=4cm,left=1cm,right=7cm,marginparwidth=6cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{hyperref}
+
+\newcommand{\overbar}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
+
+\newcommand{\introduce}[1]{%
+  \leavevmode % if at the start of a paragraph 
+  \marginpar{\small\emph{#1}}% the note
+}
+
+\newcommand{\marfig}[2]{
+	\marginpar{ \includegraphics[width=\marginparwidth]{#1} \centering \text{#2} }
+}
+
+\newcommand{\ix}[1]{%
+  \leavevmode % if at the start of a paragraph 
+  \marginpar{\small\emph{#1}}% the note
+}
+\newcommand{\expt}[1]{%
+  \mathbb{E}[#1]
+}
+
+\newcommand{\vect}[1]{\boldsymbol{\mathbf{#1}}}
+\DeclarePairedDelimiter{\mybrace}{\lbrace}{\rbrace}
+\DeclarePairedDelimiter{\magn}{|}{|}
+
+\title{\textbf{3G2 Mathematical Physiology}\\
+\textit{Course Notes}
+}
+\author{Mrinank Sharma}
+
+\begin{document}
+\maketitle
+\section{Electrophysiology}
+\subsection{Electrodiffusion through the Membrane}
+\ix{Electrodiffusion: The Nernst-Planck Equation}When considering the diffusion of chemically charged species, there is a contribution to the flux due to the electric field by \emph{Planck's Equation}
+\begin{align*}
+\vect{J} = -u \frac{z}{|z|}c\nabla\phi
+\end{align*}
+The ionic mobility, $u$, is the velocity of the ion under a unit electric field and is related to the diffusion constant $D=\frac{uRT}{|z|F}$. This relationship, combined with Fick's `law' leads to the \emph{Nernst-Planck Equation}.
+\begin{align*}
+\vect{J} = -D\Big(\nabla c + \underbrace{\frac{zF}{RT}c \nabla\phi}_{\text{Electric Term}} \Big)
+\end{align*}
+Note that $\phi$ is the electric potential and $z$ is the ion valency. \ix{Deriving the Nernst Potential}Setting $\vect{J=0}$ (in one-dimension) and integrating across the membrane, the Nernst potential, the equilibrium membrane potential difference, is given by
+\begin{align*}
+V_s = \phi_i - \phi_e = \frac{zF}{RT} \log \frac{c_e}{c_i} \tag{$\bigstar$}
+\end{align*}  
+Note that the Nernst potential \textbf{depends on the valency of the ion} and that the membrane potential, $V$, is defined as $V=V_i - V_e$. An equilibrium is reached where the diffusive flux perfectly balanced the electrical flux (which are in opposite directions). \ix{The Steady-State Assumption}A useful assumption is the steady state has been reached meaning that the \textbf{flux must be constant} which tends to hold well providing that the electric field doesn't change `too quickly'.
+
+If the electric field is assumed\ix{The Constant Field Approximation} to be constant, the potential must be linear i.e. $\frac{d\phi}{dx}=\frac{-V}{L}$. Solving this O.D.E. and applying the boundary conditions ($c(0)=c_i, c(L)=c_e$) gives the \emph{Goldman-Hodgkin-Katz current equation} which will be discussed later. 
+
+In order to make progress, the \emph{Poisson Equation} must be considered which links the potential to the concentrations
+\begin{align*}
+\nabla^2\phi = \frac{-q}{\epsilon}zc
+\end{align*} 
+where $q$ is a unit electric charge and $\epsilon$ is the dielectric constant. To proceed\ix{Assumptions: Opponent Charges}, we will assume:
+\begin{itemize}[nosep]
+	\item Two oppositely charged species within the channel move.
+	\item The \emph{permeabilities}, defined as $P=\frac{D}{L}$, are uneven with (say) $P_1 >> P_2$
+	\item There is electroneutrality inside and outside the cell. 
+	\item The concentrations and potential at the membrane limits is kept fixed.
+\end{itemize}
+By non-dimensionalising the the PNP equations, it is seen that $\lambda$ is a key quantity\ix{$\lambda$}
+\begin{align*}
+\lambda^2 = \frac{L^2qF(c_i+c_e)}{\epsilon RT}\tag{$\bigstar$}
+\end{align*}
+The behaviour in the limits of $\lambda$ are used to understand the membrane channel. 
+\begin{itemize}[nosep]
+	\item \ix{The Short-Channel Limit}In the limit where $\lambda \rightarrow 0$ (i.e. either a short channel or low concentrations), the \emph{Poisson} equation reduces to $\nabla^2\phi =0$ meaning a linear electric potential and thus \textbf{the solution is the GHK current equation}.
+	\begin{align*}
+	I^*_1(V) = P_1 \frac{F^2}{RT}\cdot V\cdot \frac{c_i - c_e \exp(-\frac{VF}{RT})}{1 - \exp(-\frac{VF}{RT})}
+	\end{align*}
+	Intuitively, in the limit, a function is well approximated using a linear \& constant term (Taylor Series).
+	
+	\item\ix{The Long-Channel Limit}In the limit where  where $\lambda \rightarrow \infty$, the \emph{Poisson Equation} implies that the concentrations of each species is the same for all $x$. Solving the PNP equations leads to a linear I-V relationship
+	\begin{align*}
+	I_1^*(V) = \underbrace{P_1 \frac{F^2}{RT} \frac{c_e-c_i}{\log c_e/c_i}}_{g_1}\cdot (V-V_1)
+	\end{align*}
+	where $V_1$ is the Nernst potential of the ion.  
+\end{itemize}
+\ix{Consistency across Models}Regardless of the choice of model, models must predict zero current at the Nernst potential, allow for bidirectional currents and give the same current at $V=0$.
+
+\subsection{The Cell as a Circuit}
+The resting membrane potential is defined as\ix{Define $V_\text{rest}$} the membrane potential where there is zero \textbf{channel current}; \emph{none of the individual currents are necessarily zero}. Intuitively, this is some sort of average Nernst potential and we would expect it's expression to reflect that. The expression for $V_\text{rest}$ is complex for the GHK model but if the linear model is used
+\begin{align*}
+V_\text{rest} = \frac{\sum_k g_k v_k}{\sum_k g_k}
+\end{align*}
+However, since there are opposing charges accumlated on either side of the insulating lipid bilayer, the \textbf{membrane itself acts as a capacitor} leading to the \emph{equivalent circuit model}.\marfig{circuit}{The Equivalent Circuit Model}. Some of the typical values for relevant circuit parameters are as outlined below. 
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+		& $V_x\ (\text{mV})$ & $g_x\ (\frac{\text{mS}}{\text{cm}^2})$ \\ \hline
+		$\text{Na}^+$                                                  & $+55$       & $0.01$                                 \\
+		$\text{Cl}^-$                                                  & $-75$       & $0.20$                                 \\
+		$\text{K}^+$                                                   & $-69$       & $0.05$                                 \\ \hline
+		$C_m\ (\frac{\mu\text{F}}{\text{cm}^2})$ & {$1.0$}          &                \\\hline
+	\end{tabular}
+\end{table}
+
+Simply applying Kirchoff's Law and applying simple circuit analysis gives that the membrane potential tends towards to resting membrane potential exponentially with time constant $\tau_m = C_m R_m$. Clearly each conductance determines the resting membrane potential (see above).
+
+This model implies that if currents are applied into the cell, the membrane current should equilibrate quickly and in an exponential manner. When small currents are applied this holds true but in practice, when larger currents are applied, the behaviour is very different (i.e. there is a generation of an \emph{action potential}).
+
+\subsection{The Action Potential}
+The diagram right plots the membrane voltage against time for with $0V$ taken to be the resting membrane potential. The action potential has the following properties:
+\begin{itemize}
+	\item Note that characteristic shape of the action potential. \marfig{spike}{An Action Potential} 
+	\item The action potential is all-or-nothing; if the threshold is exceeded, a full action potential is observed but otherwise only an exponential decay is seen. 
+	\item There is a \emph{refractory period}. In the \emph{relative refractory period}, the threshold is increased by action potentials can still be generated. In the \emph{absolute refractory period}, no current input will generate an action potential. 
+\end{itemize}
+\ix{The Missing Link...}In order to explain these observations, it was recognised that \textbf{the channel conductances are not constant}.Ions pass through the channels through voltage-gated ion channels whose rate constants depend on the membrane potential. This leads to the Hodgkin-Huxley model\ix{The Hodgkin-Huxley Model}:
+\begin{align*}
+g_{\text{Na}^+} &= \bar{g}_{\text{Na}^+} m^3(t) h(t) \\
+g_{\text{K}^+} &= \bar{g}_{\text{K}^+} n^4(t)
+\tag{$\bigstar$}
+\end{align*}
+The figures below show the steady state amplitude and time constants (i.e. how `fast' each gate responds) for each of the gate types. 
+\begin{figure}[H]
+	\centering
+	\includegraphics*[width=0.7\textwidth]{gatebeh}
+\end{figure}
+Thus the action potential can be explained as follows:
+\begin{enumerate}
+	\item\ix{Depolarisation}The current injection causes depolarisation. This activates the $m$ gate which causes $\text{Na}^+$ ions to flow into the cell which further depolarises the cell. This is \textbf{fast, positive feedback}.
+	
+	\item\ix{Repolarisation}The depolarisation activates the $n$ gate and inactivates the $h$ gate which works to reduce the $\text{Na}^+$ conductance and increase the $\text{K}^+$ conductance. This causes $\text{K}^+$ ions to flow out of the cell, repolarising the cell. This also deactivates the $m$ gates. This is \textbf{slow negative feedback}.
+	
+	\item\ix{Hyperpolarisation}The $n$ gate deactivates and the $h$ gate deinactivates but this occurs slowly. $V$ returns to the resting membrane potential. 
+\end{enumerate}
+
+The properties of the action potential are now understood;\ix{Explaining the Properties} the threshold is the threshold to activate the $m$ gate. The relative refractory period occurs due to the hyperpolarisation (and thus more current is required to achieve the threshold) and the potassium channels still being open. The absolute refractory period occurs shortly after an action potential since the $h$ gate is still in-activated and the current only activates the $m$ gate and thus the sodium channels remain closed. This prevents the sodium current and the positive feedback loop. 
+
+\subsection{Propagation}
+\ix{Motivation}Cells are spatially extended and the potential is not uniform across the entire cell! It is assumed that there are no radial or angular voltage variations and all extracellular material is at the same voltage. \textbf{The cable equation} governs the propagation and can be derived by considering conservation of voltage and current for differential elements of a neuron.
+
+\ix{Setup the Cable Problem...}
+\begin{figure}[H]
+	\centering
+	\includegraphics*[width=\textwidth]{cable}
+\end{figure}
+The equations formed look like the reaction-diffusion equation. In general, remember\ix{Time \& Space Constants}
+\begin{align*}
+\tau_m = C_m R_m \hspace{1cm} \lambda = \sqrt{\frac{R_m r}{2 R_a}} \tag{$\bigstar$}
+\end{align*}
+For specific cases:
+\begin{itemize}
+	\item For an infinite cable with a constant, current injection at $x=0$, the steady state solution is given by\ix{Infinite Cables SS Solution}
+	\begin{align*}
+	V^*(x) &= \hat{I}_{\text{total}} \hat{R}_\text{in} \exp \Big ( -\frac{|x|}{\lambda} \Big ) \\
+	\hat{I}_{\text{total}} & = 2\pi r \int I_{\text{ext}}^0 \delta(x) dx =  I_{\text{ext}}^0 \cdot 2\pi r \\
+	\hat{R}_{\text{in}} &= \frac{\hat{R}_{\lambda}}{2} = \frac{1}{2} \underbrace{\frac{R_m}{2\pi r \lambda }}_{\mathclap{\substack{\text{Membrane Resistance} \\ \text{of length } \lambda \text{, radius }  r \\ \text{segment}  }}} \hspace{1cm} \\&= \frac{1}{2} \underbrace{\frac{R_a \lambda}{\pi r^2  }}_{\mathclap{\substack{\text{Axial Resistance} \\ \text{of length } \lambda \text{, radius }  r \\ \text{segment}  }}} 
+	\end{align*}
+	Note that $R_a$ is measured in ohm centimetres and $R_m$ in ohm centimetres squared. For a semi-infinite cable,\ix{Semi-Infinite Cables} double the input resistance.
+	
+	\item For a finite cable, \ix{Finite Cables}
+	\begin{align*}
+	\frac{V^*(x)}{V^*_{\text{max}}} = \frac{\cosh \frac{L-x}{\lambda}}{\cosh \frac{L}{\lambda}}
+	\end{align*}
+	
+	\item For an infinite cable with a pulse point\ix{Pulsed Current} current injection, the solution is a time-dependent Gaussian. 
+	
+	\begin{align*}
+	V(x, t) &= \frac{1}{2\pi r} \frac{\hat{Q}_\text{total}}{C_m} \mathcal{N}(x;\ 0,\ 2\lambda^2 \frac{t}{\tau_m})\cdot \exp \Big ( \frac{-t}{\tau_m} \Big ) \\
+	\hat{Q}_\text{total} &= \int \int 2\pi r I^0_\text{ext}\ \delta(x)\ \delta(t)\ dx\ dt 
+	\end{align*}
+	\ix{Finding the propagation speed}By considering $t_\text{max}$ (i.e. the maximum potential time for a given $x$ by differentiation), the propagation speed is found to be $\frac{2\lambda}{\tau_m} \propto \sqrt{r}$
+\end{itemize}
+
+
+
+
+
+\newpage
+\section{Partial Notes on Everything Else}
+\begin{enumerate}
+\item\ix{Fick's Law}Fick's law states there there is a net flow of particles from high to lower concentrations. 
+\begin{align*}
+  J = -D\nabla n
+\end{align*}
+This can be shown using a 1D diffusion model in the limit where \emph{the time evolution of the flux is slow compared to the turning rate of particles}. Applying conversation laws, we form the diffusion equation. \ix{Diffusion Equation 1D Proof}
+\begin{align*}
+  \frac{\partial c}{\partial t} = D\nabla^2 c + \rho
+\end{align*}
+where \(\rho\) accounts for local production. 
+
+\item\ix{Osmosis}Through \emph{Osmosis}, water flows through a semi-permeable membrane due to concentration differences. 
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.6\textwidth]{osmosisUTube}
+\end{center}
+\end{figure}
+
+To stop the flow of water, there must be a difference in pressure applied. This is the \emph{osmotic pressure}. In the limit of low concentrations, the osmotic pressure has the following form:
+\begin{align*}
+  \pi = RT \sum_i c_i \hspace{1cm} \pi_2 - \pi_1 = \rho g \Delta h
+\end{align*}
+Here, we will not rederive the above relationship but rather outline the steps and assumptions made:
+\begin{enumerate}
+  \item\ix{Mixing Entropy}\underline{Mixing Entropy}\\
+  Before mixing, we have pure bodies. The free energy of a pure body can be expressed as \(G = n \cdot \mu^{P}(P, T)\) i.e. the free energy simply scales with the number of molecules. \textbf{We assume that mixing occurs at constant temperature and pressure} and in solutions, changes in volumes can be neglected meaning that the change in free energy is due to a variation in internal energy and a variation of entropy. 
+
+  Thus we are able to form an expression for the free energy of a mixture of water a solute, \(G(P, T, n_a, n_w)\)
+
+  \begin{enumerate}
+    \item \(\Delta U = \lambda\cdot n\) since changes\ix{\(\Delta U\)} in the internal energy are due to the breakage and formation of bonds and this is \textbf{assumed to scales with the number of molecules added}. 
+
+    \item Since pure bodies have no entropy and we are considering the \emph{mixing entropy}, the entropy change is purely due to the change in positional (micro)states. Thus \(\Delta S =S=k_b\ \log\ ^{n_w + n_a}C_{n_a}\)
+  \end{enumerate}
+
+  \item\ix{Chemical Potentials}A chemical potential is defined as the energy required to add one mole of the corresponding element to the system.
+  \begin{equation*}
+    \mu = \frac{\partial G}{\partial n}
+  \end{equation*}
+  From the expression of the mixing entropy, the chemical potential of water can be obtained as \(\mu_W(P, T, x_a) \) and simplified \textbf{assuming low solute concentration} (taylor expansion).
+ 
+  \item\ix{Equilibrium}Considering a u-tube where one side has pure water and the other water with a solute, the total free energy of the system can be found. \( G = G_1(P_1, T, n_1) + G_2(P_2, T, n_2, n_a) \) where \(n_1 + n_2 = C\) The equilibrium condition is applied
+  \begin{equation*}
+    \frac{\partial G}{\partial n_2} = 0 \Rightarrow \frac{\partial G_1}{\partial n_1} = \frac{\partial G_2}{\partial n_2}
+  \end{equation*}
+  i.e.\ equal chemical potentials.
+  
+  Writing the difference in pure body potentials as a partial derivative and applying a Maxwell relationship (i.e.\ reordering the partial derivatives), we form the desired result. 
+
+\end{enumerate}
+
+\item\ix{Extent of Reaction}For the reaction,
+\begin{equation*}
+  aA + bB \rightleftharpoons cC
+\end{equation*}
+the extent of reaction, \(\xi\) is used to characterise the variations of the number of molecules of each substance i.e.
+\begin{equation*}
+  dn_A = -a d\xi \hspace{1cm} dn_B = -b d\xi \hspace{1cm} dn_C = c d\xi 
+\end{equation*}
+Note the differing signs for products and reactants.
+
+\item\ix{The Law of Mass Action}For any chemical reaction, 
+\begin{equation*}
+  r_1 R_1 + \cdots + r_k R_k \rightleftharpoons  p_1 P_1 + \cdots + p_l P_l 
+\end{equation*}
+there exists an equilibrium constant K determined by thermodynamics which relates the concentrations
+\begin{equation*}
+  K(T, P) = \frac{[P_1]^{p_1} \ldots [P_l]^{p_l}}{[R_1]^{r_1} \ldots [R_k]^{r_k}}
+\end{equation*}
+The constant usually takes the form of an arrhenius process.
+
+We will outline the steps required for the derivation. 
+
+\begin{enumerate}
+  \item Note that the system is at equilbrium iff 
+  \begin{align*}
+    \frac{\partial G}{\partial\xi}\Big|_{T,P} = \sum_i \frac{\partial G}{\partial n_i}\Big|_{T,P, n_j \forall j / i} \frac{dn_i}{d\xi}= 0 
+  \end{align*}
+  And hence the chemical potentials are vital.
+  \item Obtain the chemical potentials using the expression for \(G(P, T, n_i, n_w)\) found when calculating the osmotic pressure and express this in terms of the concentration. 
+  \begin{align*}
+    \mu_A = \mu_A^{0}(P, T) + RT \log([A]) \text{ where } \mu_A^{0}(P, T) = \mu_A^{P}(P, T) + \lambda + RT \log (\frac{V}{n_w})
+  \end{align*}
+  \(\mu_A^{0}\) is the \emph{standard chemical potential of the solute, A,} and corresponds to the chemical potential of A in the infinite dilution limit extrapolated to the concentration of \(1 mol\ l^{-1}\)
+  \item Combining the above equations, the desired result is shown. 
+\end{enumerate}
+There are special cases:\ix{Special Cases}:
+\begin{itemize}
+  \item Solvents do not appear in the equilibrium constant.
+  \item Solids do not appear in the equilibrium constant.
+  \item If substances are present at high quantities, the expressions obtained are invalid and the relationship is more complex since \textbf{the potentials obtained assume low concentrations}.
+\end{itemize}
+
+\item\ix{Definitions: Acids \& Bases}Acids can donate hydrogen ions and bases can accept them. If a substance is able to do both, it is said to be amphoteric (e.g.\ water). Note that the pH is defined as
+\begin{align*}
+  pH = -\log_{10} [H^{+}] 
+\end{align*}
+Similarly, pKa is sometimes used for the acid dissociation constant. A strong acid/base completely dissociates in water giving a negative pKa. 
+
+\item\ix{Kinetics}The \emph{rate of reaction} is the time derivative of \(\xi\) i.e. \(\frac{d\xi}{dt}\). An elementary reaction is a reaction which occurs (at the molecular level) in one step; the rate of such a reaction is proportional to:
+\begin{enumerate}
+  \item the probability that the respective species meet in space, \textbf{proportional to the product of the concentrations}.
+  \item the probability that the reaction proceeds after they have met.
+\end{enumerate}
+The reaction rate then takes the following form.
+\begin{align*}
+  aA + bB &\xrightleftharpoons[k_-]{k_+} cC + dD \\
+  r = \frac{d\xi}{dt} = \frac{1}{c} \frac{d[C]}{dt} &= k_+ [A]^a [B]^b - k_- [C]^c [D]^d
+\end{align*}
+The law of mass action can be derived by noting that the thermodynamic equilibrium implies the rate of all reactions is zero.\ix{Derive Mass Action} 
+
+\item\ix{Gas Solubility}At an interface with a liquid, 
+\begin{align*}
+  \frac{dc_i}{dt} = k_{gl}P_i - k_{lg}c_i \Rightarrow  c_i = \frac{k_{gl}}{k_{lg}}P_i = \sigma_i(T)P_i  \hspace{0.5cm} \text{(at equilibrium)}
+\end{align*}
+This can be understood as a balance between particles moving from liquid to gas and vice versa since (using the ideal gas law) \(P_i = c_i RT\) i.e. the partial pressure corresponds directly to the concentration.
+\end{enumerate}
+
+\end{document}
